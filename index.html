@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SRS AI | Login</title>
+<style>
+  :root{
+    --bg:#0b0d12;
+    --theme:#4f9d5a;
+    --theme-dark:#3a7845;
+    --theme-glow:#63c576;
+    --glow-rgb:99 197 118;
+    --theme-bg:#0c1310;
+    --shade-off:#24262d;
+    --shade-off-in:#181a1f;
+    --pole-off:#585b63;
+    --pole-on:#d9dadd;
+    --base-off:#4b4e55;
+    --base-on:#c7c9cd;
+    --green:#4f9d5a;
+    --green-dark:#3a7845;
+    --green-glow:#63c576;
+    --orange:#c07a4c;
+    --orange-dark:#96593a;
+    --orange-glow:#e0996a;
+    --card-bg:#14161c;
+    --text:#eef0f2;
+    --text-dim:#9aa0ab;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100%;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:env(safe-area-inset-top,0) 20px env(safe-area-inset-bottom,0);
+    overflow:hidden;
+    transition:background 0.6s ease;
+  }
+  body.is-on{background:var(--theme-bg);}
+
+  .stage{
+    position:relative;
+    width:min(720px,94vw);
+    height:min(520px,86vh);
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    gap:40px;
+  }
+
+  /* ---- Light cone ---- */
+  .cone{
+    position:absolute;
+    left:6%;
+    bottom:0;
+    width:340px;
+    height:340px;
+    background:radial-gradient(ellipse at 30% 0%, rgb(var(--glow-rgb) / 0.28), transparent 65%);
+    opacity:0;
+    transition:opacity 0.7s ease;
+    pointer-events:none;
+    filter:blur(2px);
+  }
+  .is-on .cone{opacity:1;background:radial-gradient(ellipse at 30% 0%, rgb(var(--glow-rgb) / 0.30), transparent 65%);}
+
+  /* ---- Lamp ---- */
+  .lamp{
+    position:relative;
+    width:230px;
+    height:400px;
+    flex:0 0 auto;
+    z-index:2;
+  }
+  .base{
+    position:absolute;
+    bottom:0;
+    left:38px;
+    width:110px;
+    height:20px;
+    border-radius:50%;
+    background:radial-gradient(ellipse at 35% 65%, #4b4d53 0%, var(--base-off) 55%, #2c2e33 100%);
+    box-shadow:0 3px 6px rgba(0,0,0,0.4);
+    transition:background 0.6s ease;
+    z-index:2;
+  }
+  .is-on .base{
+    background:radial-gradient(ellipse at 35% 65%, #e9eaec 0%, var(--base-on) 55%, #9a9ca2 100%);
+  }
+  .base-top{
+    position:absolute;
+    bottom:11px;
+    left:38px;
+    width:110px;
+    height:14px;
+    border-radius:50%;
+    background:radial-gradient(ellipse at 40% 35%, #6d7077 0%, #55575e 70%, transparent 100%);
+    transition:background 0.6s ease;
+    z-index:2;
+  }
+  .is-on .base-top{
+    background:radial-gradient(ellipse at 40% 35%, #ffe9b0 0%, rgb(var(--glow-rgb) / 0.55) 55%, transparent 100%);
+  }
+  .base-glow{
+    position:absolute;
+    bottom:-14px;
+    left:8px;
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    transform:translateY(20%);
+    background:radial-gradient(circle, rgb(var(--glow-rgb) / 0.35) 0%, rgb(var(--glow-rgb) / 0.12) 45%, transparent 72%);
+    opacity:0;
+    transition:opacity 0.7s ease;
+    pointer-events:none;
+    z-index:1;
+  }
+  .is-on .base-glow{opacity:1;}
+  .spark{
+    position:absolute;
+    bottom:6px;
+    left:18px;
+    width:6px;height:6px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 0 8px 2px rgba(255,255,255,0.8);
+    opacity:0;
+    transition:opacity 0.6s ease 0.15s;
+    z-index:3;
+  }
+  .is-on .spark{opacity:0.9;}
+  .pole{
+    position:absolute;
+    bottom:16px;
+    left:83px;
+    width:18px;
+    height:180px;
+    border-radius:8px;
+    background:var(--pole-off);
+    transition:background 0.6s ease;
+  }
+  .is-on .pole{background:var(--pole-on);}
+
+  .shade-wrap{
+    position:absolute;
+    bottom:178px;
+    left:0;
+    width:230px;
+    height:150px;
+    cursor:pointer;
+  }
+  .shade{
+    position:absolute;
+    inset:0;
+    clip-path:path("M70,0 Q62,0 59,7 L12,142 Q8,150 17,150 L213,150 Q222,150 218,142 L171,7 Q168,0 160,0 Z");
+    background:linear-gradient(180deg,var(--shade-off) 0%, var(--shade-off-in) 100%);
+    transition:background 0.6s ease;
+  }
+  .shade::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    clip-path:path("M70,0 Q62,0 59,7 L12,142 Q8,150 17,150 L213,150 Q222,150 218,142 L171,7 Q168,0 160,0 Z");
+    background:linear-gradient(115deg, rgba(255,255,255,0.14) 0%, transparent 22%);
+    pointer-events:none;
+  }
+  .is-on .shade{background:linear-gradient(180deg,var(--theme) 0%, var(--theme-dark) 100%);}
+  .shade-inner-glow{
+    position:absolute;
+    left:38%;right:38%;bottom:-4px;
+    height:14px;
+    border-radius:50%;
+    background:#ffe9b0;
+    filter:blur(8px);
+    opacity:0;
+    transition:opacity 0.6s ease;
+  }
+  .is-on .shade-inner-glow{opacity:0.85;}
+
+  /* face */
+  .face{position:absolute;left:0;right:0;top:58%;height:28px;}
+  .eye{
+    position:absolute;
+    width:22px;height:22px;
+    border-bottom:3px solid #1b1c20;
+    border-radius:50%;
+    top:0;
+  }
+  .is-on .eye{
+    width:22px;
+    height:26px;
+    border:2px solid #152014;
+    border-radius:50%;
+    background:#fff;
+  }
+  .eye::after{
+    content:"";
+    position:absolute;
+    width:9px;
+    height:13px;
+    left:50%;
+    top:50%;
+    border-radius:50%;
+    background:#152014;
+    transform:translate(-50%,-50%);
+    opacity:0;
+  }
+  .is-on .eye::after{opacity:1;}
+  .eye.left{left:56px;}
+  .eye.right{right:56px;}
+  .mouth{
+    position:absolute;
+    left:50%;
+    top:2px;
+    width:0;height:0;
+    opacity:0;
+    transform:translateX(-50%);
+    transition:opacity 0.4s ease;
+  }
+  .is-on .mouth{
+    opacity:1;
+    width:34px;height:20px;
+    border-radius:0 0 17px 17px;
+    background:#141613;
+  }
+  .tongue{
+    position:absolute;
+    left:50%;
+    bottom:-7px;
+    width:14px;height:10px;
+    background:#d9605a;
+    border-radius:0 0 7px 7px;
+    transform:translateX(-50%) scale(0);
+    transition:transform 0.4s ease 0.15s;
+  }
+  .is-on .tongue{transform:translateX(-50%) scale(1);}
+
+  /* chain */
+  .chain{
+    position:absolute;
+    left:80px;
+    top:196px;
+    width:2px;
+    height:132px;
+    background:#8d8f94;
+    transform:rotate(5deg);
+    transform-origin:top center;
+    transition:transform 0.15s ease;
+  }
+  .is-on .chain{background:#c9cbd0;}
+  .bead{
+    position:absolute;
+    left:-4px;
+    bottom:-10px;
+    width:10px;height:10px;
+    border-radius:50%;
+    background:#c9cbd0;
+  }
+  .chain.pulled{transform:rotate(5deg) scaleY(1.2);}
+
+  /* ---- Card ---- */
+  .card{
+    position:relative;
+    z-index:2;
+    width:300px;
+    background:var(--card-bg);
+    border:1px solid #262a31;
+    border-radius:16px;
+    padding:32px 28px;
+    opacity:0;
+    transform:translateX(24px) scale(0.97);
+    pointer-events:none;
+    transition:opacity 0.5s ease, transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+  }
+  .is-on .card{
+    opacity:1;transform:translateX(0) scale(1);pointer-events:auto;
+    border-color:var(--theme-glow);
+    box-shadow:0 0 32px -4px rgb(var(--glow-rgb) / 0.35);
+  }
+  .card h1{
+    font-family:'Baloo 2',sans-serif;
+    font-size:24px;
+    margin:0 0 22px;
+    color:var(--text);
+  }
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12px;color:var(--text-dim);margin-bottom:6px;}
+  .field input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:8px;
+    border:1px solid #2c3037;
+    background:#0f1116;
+    color:var(--text);
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:14px;
+  }
+  .field input:focus{outline:none;border-color:var(--theme-glow);}
+  .btn{
+    width:100%;
+    padding:11px;
+    margin-top:6px;
+    border:none;
+    border-radius:9px;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:#0b0d12;
+    cursor:pointer;
+    background:var(--theme);
+    transition:background 0.5s ease;
+  }
+  .forgot{
+    display:block;
+    text-align:center;
+    margin-top:14px;
+    font-size:12px;
+    color:var(--text-dim);
+    text-decoration:none;
+    cursor:pointer;
+    background:none;
+    border:none;
+    width:100%;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  .forgot:hover{color:var(--text);}
+  .forgot-msg{
+    display:block;
+    text-align:center;
+    margin-top:8px;
+    font-size:12px;
+    color:var(--theme-glow);
+    height:0;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity 0.35s ease, transform 0.35s ease;
+  }
+  .forgot-msg.show{opacity:1;transform:translateY(0);height:auto;}
+
+  .hint{
+    position:absolute;
+    bottom:-34px;
+    left:0;right:0;
+    text-align:center;
+    font-size:12px;
+    color:var(--text-dim);
+    letter-spacing:0.02em;
+  }
+
+  /* Curved, softly shaded lamp inspired by the video reference. */
+  body{background:#10151a;overflow:auto;}
+  body.is-on{background:#10151a;}
+  .stage{width:min(760px,94vw);height:480px;gap:34px;align-items:center;justify-content:center;}
+  .cone{display:none;}
+  .lamp{width:280px;height:430px;}
+  .lamp-art{display:block;width:100%;height:100%;overflow:visible;}
+  .shade-art{cursor:pointer;transform-origin:130px 65px;}
+  .shade-shell{fill:#252a2c;transition:fill .65s ease;}
+  .is-on .shade-shell{fill:var(--theme);}
+  .hardware{filter:brightness(.38);transition:filter .65s ease;}
+  .is-on .hardware{filter:brightness(1);}
+  .light-effect{opacity:0;transition:opacity .65s ease;pointer-events:none;}
+  .is-on .light-effect{opacity:1;}
+  .sleep-eyes{opacity:1;transition:opacity .18s ease;}
+  .is-on .sleep-eyes{opacity:0;}
+  .awake-face{opacity:0;transform:translateY(2px);transition:opacity .25s ease,transform .4s ease;}
+  .is-on .awake-face{opacity:1;transform:translateY(0);}
+  .cord-art{cursor:grab;touch-action:none;transform-origin:90px 198px;filter:brightness(.55);transition:filter .5s ease;}
+  .cord-art.dragging{cursor:grabbing;}
+  .is-on .cord-art{filter:brightness(1);}
+  .cord-art.releasing{animation:cord-settle 1s ease-out;}
+  @keyframes cord-settle{0%{transform:rotate(-13deg)}22%{transform:rotate(10deg)}44%{transform:rotate(-6deg)}66%{transform:rotate(3deg)}82%{transform:rotate(-1deg)}100%{transform:rotate(0)}}
+  .card{width:300px;padding:30px 25px;background:#101719;border-radius:15px;transform:translateX(20px) scale(.97);transition:opacity .55s ease,transform .65s cubic-bezier(.2,.8,.2,1),border-color .6s ease,box-shadow .6s ease;visibility:hidden;}
+  .is-on .card{visibility:visible;box-shadow:0 0 9px rgb(var(--glow-rgb) / .28),0 0 30px rgb(var(--glow-rgb) / .18);}
+  .hint{bottom:5px;}
+  .shade-art:focus-visible,.cord-art:focus-visible{outline:2px solid var(--theme-glow);}
+  @media(max-width:620px){body{padding:24px 16px;min-height:100svh;}.stage{height:auto;min-height:740px;flex-direction:column;gap:0;width:100%;padding-bottom:45px;}.lamp{width:235px;height:365px;}.card{width:min(310px,90vw);}.hint{bottom:0;}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;}}
+
+</style>
+</head>
+<body class="off">
+  <div class="stage" id="stage">
+    <div class="cone"></div>
+    <div class="lamp">
+      <svg class="lamp-art" viewBox="0 0 260 430" aria-hidden="true">
+        <defs>
+          <linearGradient id="fabric" x1="0" x2="1"><stop stop-color="#fff" stop-opacity=".56"/><stop offset=".26" stop-color="#fff" stop-opacity=".15"/><stop offset=".64" stop-color="#000" stop-opacity=".06"/><stop offset="1" stop-color="#000" stop-opacity=".4"/></linearGradient>
+          <linearGradient id="metal"><stop stop-color="#777d80"/><stop offset=".24" stop-color="#f4f3e9"/><stop offset=".5" stop-color="#c9ceca"/><stop offset="1" stop-color="#626b6b"/></linearGradient>
+          <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff5cc" stop-opacity=".23"/><stop offset=".7" stop-color="#e7eddc" stop-opacity=".055"/><stop offset="1" stop-color="#e7eddc" stop-opacity="0"/></linearGradient>
+          <radialGradient id="pool"><stop stop-color="#fff8d3" stop-opacity=".3"/><stop offset=".45" stop-color="#fff8d3" stop-opacity=".09"/><stop offset="1" stop-color="#fff8d3" stop-opacity="0"/></radialGradient>
+          <radialGradient id="inside"><stop stop-color="#ffffec"/><stop offset=".72" stop-color="#fff3c7"/><stop offset="1" stop-color="#c3c09e"/></radialGradient>
+          <filter id="soft"><feGaussianBlur stdDeviation="5"/></filter>
+        </defs>
+        <ellipse class="light-effect" cx="128" cy="390" rx="114" ry="26" fill="url(#pool)" filter="url(#soft)"/>
+        <path class="light-effect" d="M45 188 Q130 173 215 188 L248 389 Q130 416 12 389Z" fill="url(#beam)"/>
+        <g class="hardware">
+          <ellipse cx="130" cy="386" rx="54" ry="12" fill="#292d30" opacity=".5"/>
+          <path d="M77 374 L77 380 C77 396 183 396 183 380 L183 374Z" fill="#878e8d"/>
+          <ellipse cx="130" cy="374" rx="53" ry="12" fill="url(#metal)"/>
+          <rect x="122" y="174" width="15" height="201" rx="3" fill="url(#metal)"/>
+          <ellipse cx="129.5" cy="374" rx="13" ry="3" fill="#9ca49d"/>
+        </g>
+        <g class="shade-art" id="chainZone" role="button" tabindex="0" aria-label="Switch lamp">
+          <path class="shade-shell" d="M69 58 Q130 42 191 58 L215 189 Q130 209 45 189Z"/>
+          <path d="M69 58 Q130 42 191 58 L215 189 Q130 209 45 189Z" fill="url(#fabric)"/>
+          <ellipse class="underside-off" cx="130" cy="189" rx="85" ry="12" fill="#161a1a"/>
+          <ellipse class="light-effect" cx="130" cy="189" rx="85" ry="12" fill="url(#inside)"/>
+          <path d="M69 58 Q130 42 191 58" fill="none" stroke="#ffffff" stroke-opacity=".07"/>
+          <g class="sleep-eyes" fill="none" stroke="#121b17" stroke-width="2.8" stroke-linecap="round"><path d="M79 136 Q87 146 95 136"/><path d="M165 136 Q173 146 181 136"/></g>
+          <g class="awake-face">
+            <g fill="#fff9eb" stroke="#1c2920" stroke-width="1.5"><ellipse cx="87" cy="135" rx="8" ry="10"/><ellipse cx="173" cy="135" rx="8" ry="10"/></g>
+            <g fill="#18261d"><ellipse cx="89" cy="136" rx="3.7" ry="6"/><ellipse cx="171" cy="136" rx="3.7" ry="6"/></g>
+            <g fill="white"><circle cx="90" cy="133" r="1.4"/><circle cx="172" cy="133" r="1.4"/></g>
+            <path d="M110 139 H150 Q148 160 130 161 Q112 160 110 139Z" fill="#172019"/>
+            <path d="M130 152 Q135 147 143 152 L141 161 Q134 170 128 161Z" fill="#ed7975"/>
+            <g fill="#e48d7d" opacity=".3"><ellipse cx="76" cy="150" rx="8" ry="3"/><ellipse cx="184" cy="150" rx="8" ry="3"/></g>
+          </g>
+        </g>
+        <g id="chain" class="cord-art" role="button" tabindex="0" aria-label="Pull lamp cord">
+          <path id="cordPath" d="M90 198 Q92 234 88 272" fill="none" stroke="#d0d5cf" stroke-width="2.7" stroke-linecap="round"/>
+          <circle id="cordBead" cx="88" cy="272" r="4" fill="#cdd8ce"/>
+          <path id="cordHit" d="M90 198 Q92 234 88 272" fill="none" stroke="transparent" stroke-width="30"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="card">
+      <h1>SRS AI</h1>
+      <div class="field">
+        <label for="u">Username</label>
+        <input id="u" type="text" placeholder="Enter your username">
+      </div>
+      <div class="field">
+        <label for="p">Password</label>
+        <input id="p" type="password" placeholder="Enter your password">
+      </div>
+      <button class="btn" id="loginBtn" type="button">Login</button>
+      <button class="forgot" id="forgotBtn" type="button">Forgot Password?</button>
+      <span class="forgot-msg" id="forgotMsg">Reset link sent — check your email.</span>
+    </div>
+    <div class="hint" id="hint">pull the chain</div>
+  </div>
+
+<script>
+  const body = document.body;
+  const chain = document.getElementById('chain');
+  const zone = document.getElementById('chainZone');
+  const hint = document.getElementById('hint');
+  // Twelve color themes, with an off step between each theme.
+  const themes = [
+    { name: 'green',     color: '#4f9d5a', dark: '#3a7845', glow: '#63c576', rgb: '99 197 118',  bg: '#0c1310' },
+    { name: 'orange',    color: '#c07a4c', dark: '#96593a', glow: '#e0996a', rgb: '224 153 106', bg: '#130f0c' },
+    { name: 'blue',      color: '#528bd1', dark: '#365f9c', glow: '#83b7ff', rgb: '131 183 255', bg: '#0c1018' },
+    { name: 'purple',    color: '#9766ce', dark: '#704899', glow: '#c499ff', rgb: '196 153 255', bg: '#120d19' },
+    { name: 'pink',      color: '#ce6fa0', dark: '#a04d79', glow: '#ffa0d0', rgb: '255 160 208', bg: '#180e14' },
+    { name: 'red',       color: '#cd6262', dark: '#9c4242', glow: '#ff9393', rgb: '255 147 147', bg: '#180d0d' },
+    { name: 'yellow',    color: '#d0b64d', dark: '#a08a31', glow: '#ffe480', rgb: '255 228 128', bg: '#17150c' },
+    { name: 'cyan',      color: '#4ebbc9', dark: '#318c98', glow: '#80efff', rgb: '128 239 255', bg: '#0b1518' },
+    { name: 'teal',      color: '#47b39c', dark: '#308574', glow: '#76e5cd', rgb: '118 229 205', bg: '#0b1613' },
+    { name: 'lime',      color: '#9fbd4b', dark: '#748d31', glow: '#d0ef7a', rgb: '208 239 122', bg: '#12170c' },
+    { name: 'indigo',    color: '#7c7bd4', dark: '#55549f', glow: '#b1afff', rgb: '177 175 255', bg: '#0e0e19' },
+    { name: 'lavender',  color: '#b99bd9', dark: '#8c70ae', glow: '#dfc2ff', rgb: '223 194 255', bg: '#151019' }
+  ];
+  const states = themes.flatMap(theme => ['off', `on-${theme.name}`]);
+  let i = 0;
+
+  function applyState(){
+    const isOn = states[i] !== 'off';
+    const theme = themes[Math.floor(i / 2)];
+    body.classList.remove('off', 'is-on', ...themes.map(item => `on-${item.name}`));
+    body.classList.add(states[i]);
+    body.classList.toggle('is-on', isOn);
+    body.style.setProperty('--theme', theme.color);
+    body.style.setProperty('--theme-dark', theme.dark);
+    body.style.setProperty('--theme-glow', theme.glow);
+    body.style.setProperty('--glow-rgb', theme.rgb);
+    body.style.setProperty('--theme-bg', theme.bg);
+    document.querySelector('.card').inert = !isOn;
+    hint.textContent = isOn ? 'pull to turn off' : 'pull the chain';
+  }
+
+  let switching = false;
+  function pull(){
+    if(switching) return;
+    switching = true;
+    chain.classList.remove('releasing');
+    void chain.getBoundingClientRect();
+    chain.classList.add('releasing');
+    i = (i+1) % states.length;
+    applyState();
+    setTimeout(()=>{ switching = false; }, 320);
+  }
+  zone.addEventListener('click', pull);
+  [zone, chain].forEach(control => control.addEventListener('keydown', event => {
+    if(event.key === 'Enter' || event.key === ' '){ event.preventDefault(); pull(); }
+  }));
+  const cordPath = document.getElementById('cordPath');
+  const cordHit = document.getElementById('cordHit');
+  const bead = document.getElementById('cordBead');
+  let drag = null;
+  function resetCord(){
+    cordPath.setAttribute('d', 'M90 198 Q92 234 88 272');
+    cordHit.setAttribute('d', 'M90 198 Q92 234 88 272');
+    bead.setAttribute('cx', 88); bead.setAttribute('cy', 272);
+  }
+  chain.addEventListener('pointerdown', event => {
+    if(switching || (event.pointerType === 'mouse' && event.button !== 0)) return;
+    event.preventDefault();
+    chain.classList.remove('releasing');
+    chain.classList.add('dragging');
+    chain.setPointerCapture(event.pointerId);
+    drag = { x:event.clientX, y:event.clientY, distance:0 };
+  });
+  chain.addEventListener('pointermove', event => {
+    if(!drag) return;
+    const scale = 430 / document.querySelector('.lamp-art').getBoundingClientRect().height;
+    const dx = Math.max(-65, Math.min(65, (event.clientX-drag.x)*scale));
+    const dy = Math.max(-12, Math.min(65, (event.clientY-drag.y)*scale));
+    drag.distance = Math.hypot(dx,dy);
+    const x=88+dx, y=272+dy;
+    const path = `M90 198 Q${92+dx*.25} ${234+dy*.5} ${x} ${y}`;
+    cordPath.setAttribute('d',path); cordHit.setAttribute('d',path);
+    bead.setAttribute('cx',x); bead.setAttribute('cy',y);
+  });
+  function releaseCord(event){
+    if(!drag) return;
+    drag=null;
+    chain.classList.remove('dragging');
+    if(chain.hasPointerCapture(event.pointerId)) chain.releasePointerCapture(event.pointerId);
+    resetCord();
+    if(event.type === 'pointercancel') return;
+    pull();
+  }
+  chain.addEventListener('pointerup', releaseCord);
+  chain.addEventListener('pointercancel', releaseCord);
+
+  applyState();
+
+  const loginBtn = document.getElementById('loginBtn');
+  loginBtn.addEventListener('click', ()=>{
+    const username = document.getElementById('u').value.trim();
+    const password = document.getElementById('p').value;
+    if(username === 'SRSAI' && password === '800122'){
+      window.location.href = 'input.html';
+    } else {
+      alert('Invalid User ID or password.');
+    }
+  });
+
+  const forgotBtn = document.getElementById('forgotBtn');
+  const forgotMsg = document.getElementById('forgotMsg');
+  let forgotTimer;
+  forgotBtn.addEventListener('click', ()=>{
+    forgotMsg.classList.add('show');
+    clearTimeout(forgotTimer);
+    forgotTimer = setTimeout(()=>forgotMsg.classList.remove('show'), 3500);
+  });
+</script>
+</body>
+</html>

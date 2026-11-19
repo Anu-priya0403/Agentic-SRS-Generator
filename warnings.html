@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SRS AI | Validation warnings</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="warnings">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div>
+    <nav class="nav" aria-label="Workflow navigation"><a data-nav="input" href="input.html"><span class="nav-dot"></span>New Request</a><a data-nav="clarifications" href="clarifications.html"><span class="nav-dot"></span>Clarifications</a><a data-nav="generating" href="generating.html"><span class="nav-dot"></span>Generating</a><a data-nav="results" href="results.html"><span class="nav-dot"></span>Results</a><a data-nav="warnings" href="warnings.html"><span class="nav-dot"></span>Warnings</a><a data-nav="failure" href="failure.html"><span class="nav-dot"></span>Failure State</a></nav>
+    <div class="sidebar-foot"><div class="user"><div class="avatar">FE</div><div><strong style="font-size:12px">Frontend Demo</strong><small>Static prototype</small></div></div></div>
+  </aside>
+  <main class="main">
+    <div class="mobile-head"><div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    <header class="topbar">
+      <div><div class="eyebrow">SRS generation workflow</div><h1>Validation warnings</h1><div class="muted" style="margin-top:7px;font-size:13px">A completed run can still contain unresolved findings. This state is visibly different from a hard failure.</div></div>
+      <div class="top-actions"><div class="pill"><span class="status-dot"></span>Frontend prototype</div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    </header>
+    <section class="content">
+<div class="banner warning"><div>!</div><div><strong>Completed with warnings</strong><p>Status: <code>done_with_warnings</code>. The generated SRS is available, but validation found items that need review.</p></div></div>
+<div class="grid two">
+  <div class="card card-pad"><h2>Validation findings</h2><p class="muted" style="font-size:12px">Severity is communicated with labels as well as color.</p><div class="list" id="issues" style="margin-top:18px"></div><div class="btn-row"><a class="btn btn-primary" href="results.html">Review SRS</a><a class="btn btn-secondary" href="input.html">Start another request</a></div></div>
+  <aside class="card card-pad"><h3>How this state should behave</h3><div class="note" style="margin-top:14px"><strong>Not a failure</strong><br>The user still receives the generated SRS. Findings should explain severity, location and description without exposing internal provider errors.</div><div class="list" style="margin-top:14px"><div class="list-item"><strong>High</strong><p>Material issue that can affect correctness or acceptance.</p></div><div class="list-item"><strong>Medium</strong><p>Important gap that should be reviewed before handoff.</p></div><div class="list-item"><strong>Low</strong><p>Minor completeness or quality observation.</p></div></div></aside>
+</div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

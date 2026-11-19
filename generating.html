@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SRS AI | Generating your SRS</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="generating">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div>
+    <nav class="nav" aria-label="Workflow navigation"><a data-nav="input" href="input.html"><span class="nav-dot"></span>New Request</a><a data-nav="clarifications" href="clarifications.html"><span class="nav-dot"></span>Clarifications</a><a data-nav="generating" href="generating.html"><span class="nav-dot"></span>Generating</a><a data-nav="results" href="results.html"><span class="nav-dot"></span>Results</a><a data-nav="warnings" href="warnings.html"><span class="nav-dot"></span>Warnings</a><a data-nav="failure" href="failure.html"><span class="nav-dot"></span>Failure State</a></nav>
+    <div class="sidebar-foot"><div class="user"><div class="avatar">FE</div><div><strong style="font-size:12px">Frontend Demo</strong><small>Static prototype</small></div></div></div>
+  </aside>
+  <main class="main">
+    <div class="mobile-head"><div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    <header class="topbar">
+      <div><div class="eyebrow">SRS generation workflow</div><h1>Generating your SRS</h1><div class="muted" style="margin-top:7px;font-size:13px">Generation and validation run synchronously, so the UI keeps the user informed and blocks duplicate submissions.</div></div>
+      <div class="top-actions"><div class="pill"><span class="status-dot"></span>Frontend prototype</div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    </header>
+    <section class="content">
+<div class="card progress-wrap" aria-live="polite">
+  <div class="orb"><div class="spinner"></div></div>
+  <h2 style="font-family:'Baloo 2',sans-serif;margin:0 0 8px">Turning requirements into a structured specification</h2>
+  <p class="muted" id="liveStatus">Starting requirement extraction…</p>
+  <div class="steps">
+    <div class="step" data-step="0"><span>Requirement extraction</span><strong>Working…</strong></div>
+    <div class="step" data-step="1"><span>Clarification merge</span><strong>Queued</strong></div>
+    <div class="step" data-step="2"><span>Use cases & SRS drafting</span><strong>Queued</strong></div>
+    <div class="step" data-step="3"><span>Validation</span><strong>Queued</strong></div>
+  </div>
+  <div class="btn-row" style="justify-content:center"><a hidden class="btn btn-primary" id="continueBtn" href="results.html">View generated SRS →</a></div>
+  <p class="tiny" style="margin-top:16px">In production, keep this state tied to the actual request lifecycle and agreed timeout behavior.</p>
+</div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

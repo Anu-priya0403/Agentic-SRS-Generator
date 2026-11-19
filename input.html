@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SRS AI | Describe the product</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="input">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div>
+    <nav class="nav" aria-label="Workflow navigation"><a data-nav="input" href="input.html"><span class="nav-dot"></span>New Request</a><a data-nav="clarifications" href="clarifications.html"><span class="nav-dot"></span>Clarifications</a><a data-nav="generating" href="generating.html"><span class="nav-dot"></span>Generating</a><a data-nav="results" href="results.html"><span class="nav-dot"></span>Results</a><a data-nav="warnings" href="warnings.html"><span class="nav-dot"></span>Warnings</a><a data-nav="failure" href="failure.html"><span class="nav-dot"></span>Failure State</a></nav>
+    <div class="sidebar-foot"><div class="user"><div class="avatar">FE</div><div><strong style="font-size:12px">Frontend Demo</strong><small>Static prototype</small></div></div></div>
+  </aside>
+  <main class="main">
+    <div class="mobile-head"><div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    <header class="topbar">
+      <div><div class="eyebrow">SRS generation workflow</div><h1>Describe the product</h1><div class="muted" style="margin-top:7px;font-size:13px">Provide the customer or stakeholder description that the backend will turn into requirements.</div></div>
+      <div class="top-actions"><div class="pill"><span class="status-dot"></span>Frontend prototype</div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    </header>
+    <section class="content">
+<div class="grid two">
+  <div class="card card-pad">
+    <h2>Start a new SRS</h2>
+    <p class="muted">Give enough context for the requirement extractor to identify users, capabilities, dependencies and quality expectations.</p>
+    <form id="inputForm" novalidate>
+      <div class="field"><label for="rawInput">Customer description <span class="tiny">(required)</span></label><textarea class="textarea" id="rawInput" maxlength="8000" placeholder="Describe the system, users, workflows, integrations and constraints…" required></textarea><div class="char-row"><span>Be specific about users, actions, integrations and constraints.</span><span id="charCount">0 characters</span></div></div>
+      <div class="field"><label for="maxRevisions">Maximum revision cycles</label><select class="select" id="maxRevisions"><option>2</option><option>1</option><option>0</option><option>3</option></select></div>
+      <div class="btn-row"><button class="btn btn-primary" id="generateBtn" type="submit">Analyze requirements →</button><button class="btn btn-ghost" type="button" onclick="document.getElementById('rawInput').value='';document.getElementById('rawInput').dispatchEvent(new Event('input'))">Clear</button></div>
+    </form>
+  </div>
+  <aside class="card card-pad">
+    <h3>Example prompts</h3><p class="muted" style="font-size:12px">Use an example as a starting point, then tailor it to the actual customer need.</p>
+    <div class="example-list">
+      <div class="example" data-example="Build a customer support portal where customers can submit service requests, track ticket status, upload attachments, and receive notifications. Support agents should prioritize tickets and managers need reporting dashboards.">Customer support portal</div>
+      <div class="example" data-example="Create an appointment booking platform for clinics. Patients can search doctors, choose slots, reschedule bookings and receive reminders. Clinic staff manage schedules and administrators manage locations and users.">Clinic appointment platform</div>
+      <div class="example" data-example="Design an internal procurement request system with approval workflows, budget checks, vendor comparison, audit history and ERP integration.">Procurement workflow</div>
+    </div>
+    <div class="note" style="margin-top:18px"><strong>Static frontend demo</strong><br>This version works entirely with HTML, CSS and JavaScript. No backend, framework, package install or server command is required to preview the screens.</div>
+  </aside>
+</div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

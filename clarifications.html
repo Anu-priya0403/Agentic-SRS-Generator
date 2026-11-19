@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SRS AI | Clarifications</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="clarifications">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div>
+    <nav class="nav" aria-label="Workflow navigation"><a data-nav="input" href="input.html"><span class="nav-dot"></span>New Request</a><a data-nav="clarifications" href="clarifications.html"><span class="nav-dot"></span>Clarifications</a><a data-nav="generating" href="generating.html"><span class="nav-dot"></span>Generating</a><a data-nav="results" href="results.html"><span class="nav-dot"></span>Results</a><a data-nav="warnings" href="warnings.html"><span class="nav-dot"></span>Warnings</a><a data-nav="failure" href="failure.html"><span class="nav-dot"></span>Failure State</a></nav>
+    <div class="sidebar-foot"><div class="user"><div class="avatar">FE</div><div><strong style="font-size:12px">Frontend Demo</strong><small>Static prototype</small></div></div></div>
+  </aside>
+  <main class="main">
+    <div class="mobile-head"><div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    <header class="topbar">
+      <div><div class="eyebrow">SRS generation workflow</div><h1>Clarifications</h1><div class="muted" style="margin-top:7px;font-size:13px">Answer the questions returned by the backend, or explicitly continue without answers.</div></div>
+      <div class="top-actions"><div class="pill"><span class="status-dot"></span>Frontend prototype</div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    </header>
+    <section class="content">
+<div class="grid two">
+  <div class="card card-pad">
+    <div class="banner warning"><div>?</div><div><strong>More information is needed</strong><p>The pipeline returned <code>awaiting_answers</code>. Exact question text is preserved as the answer-map key.</p></div></div>
+    <form id="answersForm"><div id="questions"></div><div class="btn-row"><button class="btn btn-primary" type="submit">Submit answers →</button><button class="btn btn-secondary" id="skipBtn" type="button">Skip questions</button><a class="btn btn-ghost" href="input.html">Back</a></div></form>
+  </div>
+  <aside class="card card-pad"><h3>Original description</h3><p class="muted" id="sourceDescription" style="font-size:12px"></p><div class="note" style="margin-top:18px"><strong>Important</strong><br>Skipping is a deliberate user action. The frontend should not silently skip clarification questions.</div></aside>
+</div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

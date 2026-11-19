@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SRS AI | Generated SRS</title>
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body data-page="results">
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div>
+    <nav class="nav" aria-label="Workflow navigation"><a data-nav="input" href="input.html"><span class="nav-dot"></span>New Request</a><a data-nav="clarifications" href="clarifications.html"><span class="nav-dot"></span>Clarifications</a><a data-nav="generating" href="generating.html"><span class="nav-dot"></span>Generating</a><a data-nav="results" href="results.html"><span class="nav-dot"></span>Results</a><a data-nav="warnings" href="warnings.html"><span class="nav-dot"></span>Warnings</a><a data-nav="failure" href="failure.html"><span class="nav-dot"></span>Failure State</a></nav>
+    <div class="sidebar-foot"><div class="user"><div class="avatar">FE</div><div><strong style="font-size:12px">Frontend Demo</strong><small>Static prototype</small></div></div></div>
+  </aside>
+  <main class="main">
+    <div class="mobile-head"><div class="brand"><div class="brand-mark">AI</div><div><strong>SRS AI</strong><span>Requirements workspace</span></div></div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    <header class="topbar">
+      <div><div class="eyebrow">SRS generation workflow</div><h1>Generated SRS</h1><div class="muted" style="margin-top:7px;font-size:13px">Review the generated specification, extracted requirements, use cases and validation outcome.</div></div>
+      <div class="top-actions"><div class="pill"><span class="status-dot"></span>Frontend prototype</div><a class="btn btn-ghost" href="index.html">Logout</a></div>
+    </header>
+    <section class="content">
+<div class="banner success"><div>✓</div><div><strong>Generation completed</strong><p>Status: <code>done</code> · Validation passed in this sample state. Use the Warnings page to preview <code>done_with_warnings</code>.</p></div></div>
+<div class="metrics"><div class="metric"><b>4</b><span>Functional requirements</span></div><div class="metric"><b>3</b><span>Non-functional requirements</span></div><div class="metric"><b>2</b><span>Use cases</span></div><div class="metric"><b>Passed</b><span>Validation state</span></div></div>
+<div class="card card-pad">
+  <div style="display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap"><div><h2>Specification output</h2><p class="muted" style="font-size:12px">Mock response shaped after the integration guide.</p></div><div class="btn-row" style="margin-top:0"><button class="btn btn-secondary" id="copyBtn">Copy</button><button class="btn btn-primary" id="downloadBtn">Download .md</button></div></div>
+  <div class="tabs" role="tablist"><button class="tab active" data-target="srsPanel">SRS Preview</button><button class="tab" data-target="frPanel">Functional</button><button class="tab" data-target="nfrPanel">Non-functional</button><button class="tab" data-target="ucPanel">Use cases</button></div>
+  <div class="panel active" id="srsPanel"><article class="srs-preview" id="srsPreview"></article></div>
+  <div class="panel" id="frPanel"><div class="list" id="frList"></div></div>
+  <div class="panel" id="nfrPanel"><div class="list" id="nfrList"></div></div>
+  <div class="panel" id="ucPanel"><div class="list" id="ucList"></div></div>
+</div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
